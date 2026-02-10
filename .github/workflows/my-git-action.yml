@@ -28,7 +28,7 @@ jobs:
         run: ls -la
       
       - name: git clone my repo
-        run: actions/checkout@v2
+        run: actions/checkout@v1
 
       -  name: List curent folder again
          run: ls -la
