@@ -16,7 +16,12 @@ jobs:
     steps:
       - name: Print nice message
         run: echo "Hello World"
-        
+
+      - name: Execute few commands
+        run: |
+          echo "Execute few commands"
+          echo "Hello World from few commands"
+
       - name: List curent folder
         run: ls -la
       
