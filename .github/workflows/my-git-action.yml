@@ -7,8 +7,7 @@ name: My-Github-Actions
 
 on: 
   push: 
-    branches:
-      - master
+    branches: [main, master]
 
 jobs:
   my_testing: 
