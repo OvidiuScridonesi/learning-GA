@@ -16,14 +16,7 @@ jobs:
     steps:
       - name: Print nice message
         run: echo "Hello World"
-
-  my_deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Print nice message from deploy job
-        run: echo "Hello World from Deploy job"
-
+        
       - name: List curent folder
         run: ls -la
       
@@ -33,6 +26,15 @@ jobs:
       -  name: List curent folder again
          run: ls -la
         
+
+  my_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print nice message from deploy job
+        run: echo "Hello World from Deploy job"
+
+    
   my_deploy_status:
     runs-on: ubuntu-latest
 
