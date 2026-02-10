@@ -32,4 +32,4 @@ jobs:
         run: |
           echo "See machine status"
 
-          docker status
+          docker stats --no-stream
