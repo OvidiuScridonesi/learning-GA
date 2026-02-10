@@ -24,3 +24,12 @@ jobs:
       - name: Print nice message from deploy job
         run: echo "Hello World from Deploy job"
         
+  my_deploy_status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: See machine status
+        run: |
+          echo "See machine status"
+
+          docker status
