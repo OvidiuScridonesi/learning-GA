@@ -60,4 +60,23 @@ jobs:
           echo "See machine status"
 
           docker stats --no-stream
-      
+  
+  my_deploy_second_machine_status:
+    runs-on: ubuntu-latest
+    needs: my_deploy_second_machine
+
+    steps:
+      - name: See machine status
+        run: |
+          echo "See machine status"
+
+          docker stats --no-stream
+
+
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    needs: [my_deploy_status, my_deploy_second_machine_status]
+
+    steps:
+      - name: Deploy to production
+        run: echo "Deploying to production"
