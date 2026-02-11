@@ -32,7 +32,7 @@ jobs:
          run: ls -la
         
 
-  my_deploy:
+  my_deploy_first_machine:
     runs-on: ubuntu-latest
     needs: my_testing
 
@@ -50,9 +50,9 @@ jobs:
 
 
     
-  my_deploy_status:
+  my_deploy_status_first_machine:
     runs-on: ubuntu-latest
-    needs: my_deploy
+    needs: my_deploy_first_machine
 
     steps:
       - name: See machine status
@@ -75,7 +75,7 @@ jobs:
 
   deploy_to_production:
     runs-on: ubuntu-latest
-    needs: [my_deploy_status, my_deploy_second_machine_status]
+    needs: [my_deploy_status_first_machine, my_deploy_second_machine_status]
 
     steps:
       - name: Deploy to production
