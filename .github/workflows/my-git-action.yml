@@ -26,7 +26,7 @@ jobs:
         run: ls -la
       
       - name: git clone my repo
-        run: actions/checkout@v1
+        run: actions/checkout@v4
 
       -  name: List curent folder again
          run: ls -la
@@ -34,6 +34,7 @@ jobs:
 
   my_deploy:
     runs-on: ubuntu-latest
+    needs: my_testing
 
     steps:
       - name: Print nice message from deploy job
@@ -42,6 +43,7 @@ jobs:
     
   my_deploy_status:
     runs-on: ubuntu-latest
+    needs: my_deploy
 
     steps:
       - name: See machine status
