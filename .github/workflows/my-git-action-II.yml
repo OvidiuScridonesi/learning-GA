@@ -5,9 +5,18 @@
 #-----------------------------------
 name: My-Multiple-Github-Actions
 
+
 on:
-  push:
-    branches: [main, master]
+    push:
+      branches: [main, master]
+    workflow_call:
+        inputs:
+         environment:
+           required: true
+           type: string
+
+
+  
 
 jobs:
   my-testing-II:
@@ -23,3 +32,19 @@ jobs:
     needs: [my-testing-II, my-testing-III]
     steps:
       - run: echo "Hello from deploy job"
+
+  my_deploy_secret:
+   runs-on: ubuntu-latest
+   needs: my_deploy_second_machine
+
+   steps:
+    - name: Check secret
+      run: |
+        if [ -z "$MY_API_KEY" ]; then
+          echo "Secret missing"
+          exit 1
+        else
+          echo "Secret loaded"
+        fi
+      env:
+        MY_API_KEY: ${{ secrets.MY_API_KEY }}
