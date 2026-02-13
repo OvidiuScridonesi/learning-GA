@@ -5,10 +5,12 @@
 #-----------------------------------
 name: My-Multiple-Github-Actions
 
+
+
 on:
   push:
     branches: [main, master]
-
+  workflow_call:
 jobs:
   my-testing-II:
     uses: ./.github/workflows/my-git-action.yml
