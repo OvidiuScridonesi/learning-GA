@@ -1,0 +1,25 @@
+#-----------------------------------
+#
+#Github actions
+#
+#-----------------------------------
+name: My-Multiple-Github-Actions
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  my-testing-II:
+    uses: ./.github/workflows/my-git-action.yml
+
+  my-testing-III:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello from III"
+
+  my_deploy_second_machine:
+    runs-on: ubuntu-latest
+    needs: [my-testing-II, my-testing-III]
+    steps:
+      - run: echo "Hello from deploy job"
