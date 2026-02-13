@@ -14,7 +14,12 @@ on:
       required: true
 
 jobs:
+  deploiment-to-Dev:
+    runs-on: ubuntu-latest
+    steps:
+        - run: echo "this will diploy the code on Dev env"
   my-testing-II:
+    needs: deploiment-to-Dev
     runs-on: ubuntu-latest
     steps:
         - run: echo "this is a test"
