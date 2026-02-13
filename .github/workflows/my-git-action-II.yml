@@ -7,34 +7,27 @@ name: My Main Workflow
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
 
 jobs:
-  my-testing-II:
-    uses: ./.github/workflows/my-git-action.yml
+  # Step 1: Call the reusable workflow
+  call-reusable-workflow:
+    uses: .github/workflows/my-git-action.yml
+    secrets:
+      MY_API_KEY: ${{ secrets.MY_API_KEY }}
 
-  my-testing-III:
+  # Step 2: Next job that depends on the reusable workflow
+  next-job:
     runs-on: ubuntu-latest
+    needs: call-reusable-workflow
     steps:
-      - run: echo "Hello from III"
+      - name: Run after reusable workflow
+        run: echo "This runs after my-git-action.yml finished"
 
-  my_deploy_second_machine:
+  # Step 3: Another job after previous job
+  deploy-job:
     runs-on: ubuntu-latest
-    needs: [my-testing-II, my-testing-III]
+    needs: next-job
     steps:
-      - run: echo "Hello from deploy job"
-
-  my_deploy_secret:
-    runs-on: ubuntu-latest
-    needs: my_deploy_second_machine
-    steps:
-      - name: Check secret
-        run: |
-          if [ -z "$MY_API_KEY" ]; then
-            echo "Secret missing"
-            exit 1
-          else
-            echo "Secret loaded"
-          fi
-        env:
-          MY_API_KEY: ${{ secrets.MY_API_KEY }}
+      - name: Deploy step
+        run: echo "Deploying after previous jobs"
