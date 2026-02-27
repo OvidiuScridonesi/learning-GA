@@ -10,44 +10,86 @@ on:
       branches: [main, master]
 
 jobs:
- Deployment_on_dev:
+ Deployment_Sonar:
   runs-on: ubuntu-latest    
 
   steps:
     - name: Deployment on Dev       
-      run: echo "this will deploy the code on Dev env"        
-    
- Deployment_on_stage:
+      run: echo "this will deploy the code on Dev env"
+
+ Dev_first_machine:
   runs-on: ubuntu-latest
-  needs: Deployment_on_dev
+  needs: Deployment_Sonar
 
   steps:
-    - name: Deployment on Stage      
-      run: echo "this will deploy the code on Stage env"
+    - name: Print nice message from deploy job
+      run: echo "Hello World from Deploy job"
+  
+ Dev_second_machine:
+  runs-on: ubuntu-latest
+  needs: Deployment_Sonar
+
+  steps:
+    - name: Print nice message from deploy job
+      run: echo "Hello World from Deploy job"        
+
+ Dev_job:    
+    runs-on: ubuntu-latest
+    needs: [Dev_first_machine, Dev_second_machine]
+
+    steps:
+      - name: Stage is the next step
+        run: echo "Deployment on Dev env is completed, continuing the deployment on production" 
+
+ Stage_first_machine:
+  runs-on: ubuntu-latest
+  needs: Deployment_Sonar
+
+  steps:
+    - name: Print nice message from deploy job
+      run: echo "Hello World from Deploy job"
+  
+ Stage_second_machine:
+  runs-on: ubuntu-latest
+  needs: Deployment_Sonar
+
+  steps:
+    - name: Print nice message from deploy job
+      run: echo "Hello World from Deploy job"        
+
+ Stage_job:    
+    runs-on: ubuntu-latest
+    needs: [Stage_second_machine, Stage_second_machine]
+
+    steps:
+      - name: Production is the next step
+        run: echo "Deployment on Stage env is completed, continuing the deployment on production" 
 
  Deployment_on_production:
   runs-on: ubuntu-latest
-  needs: Deployment_on_stage
+  needs: Stage_job
 
   steps:
     - name: Deployment on Production     
-      run: echo "this will deploy the code on Prod env"
+      run: | 
+       echo "This will deploy the code on Prod env"
+       echo "Don't forget to scale the env!"
 
  notify_success:
   runs-on: ubuntu-latest
-  needs: [Deployment_on_dev, Deployment_on_stage, Deployment_on_production]
+  needs: [Dev_job, Stage_job, Deployment_on_production]
   if: ${{ success() }}
 
   steps:
     - name: Notify Success
       run: |
-        curl -X POST -H "Content-type: application/json" \
-          --data '{"text":" Pipeline SUCCESS "}' \
-          "${{ secrets.GMAIL }}"
+        curl -X POST -H "Content-Type: application/json" \
+        --data '{"text":"Pipeline SUCCESS"}' \
+        "${{ secrets.GMAIL_WEBHOOK_URL }}"
 
  notify_failure:
   runs-on: ubuntu-latest
-  needs: [Deployment_on_dev, Deployment_on_stage, Deployment_on_production]
+  needs: [Dev_job, Stage_job, Deployment_on_production]
   if: ${{ failure() }}
 
   steps:
@@ -55,4 +97,4 @@ jobs:
       run: |
         curl -X POST -H "Content-type: application/json" \
           --data '{"text":" Pipeline FAILED "}' \
-          "${{ secrets.GMAIL }}"
+          "${{ secrets.GMAIL_WEBHOOK_URL }}"
