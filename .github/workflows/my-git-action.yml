@@ -1,90 +1,90 @@
-#-----------------------------------
-#
-#Github actions
-#
-#-----------------------------------
-name: My-Github-Actions
+# #-----------------------------------
+# #
+# #Github actions
+# #
+# #-----------------------------------
+# name: My-Github-Actions
 
-on: 
-  push: 
-    branches: [main, master]
+# on: 
+#   push: 
+#     branches: [main, master]
 
-jobs:
-  my_testing: 
-    runs-on: ubuntu-latest
+# jobs:
+#   my_testing: 
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Print nice message
-        run: echo "Hello World"
+#     steps:
+#       - name: Print nice message
+#         run: echo "Hello World"
 
-      - name: Execute few commands
-        run: |
-          echo "Execute few commands"
-          echo "Hello World from few commands"
+#       - name: Execute few commands
+#         run: |
+#           echo "Execute few commands"
+#           echo "Hello World from few commands"
 
-      - name: List curent folder
-        run: ls -la
+#       - name: List curent folder
+#         run: ls -la
       
-      - name: git clone my repo
-        uses: actions/checkout@v4
+#       - name: git clone my repo
+#         uses: actions/checkout@v4
 
-      -  name: List curent folder again
-         run: ls -la
+#       -  name: List curent folder again
+#          run: ls -la
         
 
-  my_deploy_first_machine:
-    runs-on: ubuntu-latest
-    needs: my_testing
+#   my_deploy_first_machine:
+#     runs-on: ubuntu-latest
+#     needs: my_testing
 
-    steps:
-      - name: Print nice message from deploy job
-        run: echo "Hello World from Deploy job"
+#     steps:
+#       - name: Print nice message from deploy job
+#         run: echo "Hello World from Deploy job"
   
-  my_deploy_second_machine:
-    runs-on: ubuntu-latest
-    needs: my_testing
+#   my_deploy_second_machine:
+#     runs-on: ubuntu-latest
+#     needs: my_testing
 
-    steps:
-      - name: Print nice message from deploy job
-        run: echo "Hello World from Deploy job"
+#     steps:
+#       - name: Print nice message from deploy job
+#         run: echo "Hello World from Deploy job"
 
 
     
-  my_deploy_status_first_machine:
-    runs-on: ubuntu-latest
-    needs: my_deploy_first_machine
+#   my_deploy_status_first_machine:
+#     runs-on: ubuntu-latest
+#     needs: my_deploy_first_machine
 
-    steps:
-      - name: See machine status
-        run: |
-          echo "See machine status"
+#     steps:
+#       - name: See machine status
+#         run: |
+#           echo "See machine status"
 
-          docker stats --no-stream
+#           docker stats --no-stream
   
-  my_deploy_second_machine_status:
-    runs-on: ubuntu-latest
-    needs: my_deploy_second_machine
+#   my_deploy_second_machine_status:
+#     runs-on: ubuntu-latest
+#     needs: my_deploy_second_machine
 
-    steps:
-      - name: See machine status
-        run: |
-          echo "See machine status"
+#     steps:
+#       - name: See machine status
+#         run: |
+#           echo "See machine status"
 
-          docker stats --no-stream
+#           docker stats --no-stream
 
 
-  deploy_to_production:
-    runs-on: ubuntu-latest
-    needs: [my_deploy_status_first_machine, my_deploy_second_machine_status]
+#   deploy_to_production:
+#     runs-on: ubuntu-latest
+#     needs: [my_deploy_status_first_machine, my_deploy_second_machine_status]
 
-    steps:
-      - name: Production release
-        run: echo "Deploying to production"
+#     steps:
+#       - name: Production release
+#         run: echo "Deploying to production"
   
-  production_status:
-    runs-on: ubuntu-latest
-    needs: deploy_to_production
+#   production_status:
+#     runs-on: ubuntu-latest
+#     needs: deploy_to_production
 
-    steps:
-      - name: Production status after deploy
-        run: echo "Release successful, production status is good"
+#     steps:
+#       - name: Production status after deploy
+#         run: echo "Release successful, production status is good"

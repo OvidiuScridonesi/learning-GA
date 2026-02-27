@@ -34,6 +34,12 @@ jobs:
           java -version
           mvn -version
 
+      - name: Compile HelloWorldApp.java
+        run: javac HelloWorldApp.java
+
+      - name: Run HelloWorldApp
+        run: java HelloWorldApp
+
    deploy_dev:
     runs-on: ubuntu-latest
     needs: setup_java_maven
@@ -59,6 +65,12 @@ jobs:
           mvn clean install
           echo "Deploying to Stage environment..."
           # Add your Stage deployment commands here
+        
+      - name: Compile HelloWorldApp.java
+        run: javac HelloWorldApp.java
+
+      - name: Run HelloWorldApp
+        run: java HelloWorldApp
 
     # Manual Production Deployment (workflow_dispatch)
  
