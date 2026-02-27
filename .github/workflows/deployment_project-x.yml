@@ -19,6 +19,7 @@ jobs:
     
  Deployment_on_stage:
   runs-on: ubuntu-latest
+  needs: Deployment_on_dev
 
   steps:
     - name: Deployment on Stage      
@@ -26,6 +27,7 @@ jobs:
 
  Deployment_on_production:
   runs-on: ubuntu-latest
+  needs: Deployment_on_stage
 
   steps:
     - name: Deployment on Production     
@@ -33,7 +35,7 @@ jobs:
 
 notify: 
     runs-on: ubuntu-latest
-    needs: [tDeployment_on_dev, dDeployment_on_stage, Deployment_on_production]
+    needs: [Deployment_on_dev, dDeployment_on_stage, Deployment_on_production]
 
 notify_success:
     runs-on: ubuntu-latest
