@@ -12,9 +12,26 @@ on:
 jobs:
  backup_repo:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Pull latest code for backup
-        run: echo "Pulling latest code..."   
+      - name: Clone repo on remote server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Directory where the repo will live
+            mkdir -p ~/deploy_repo
+            cd ~/deploy_repo
+
+            # If repo already exists, pull latest; otherwise clone
+            if [ -d ".git" ]; then
+              git reset --hard
+              git pull origin main
+            else
+              git clone https://github.com/OvidiuScridonesi/learning-GA 
+            fi
 
  Deployment_Sonar:
     runs-on: ubuntu-latest
@@ -24,6 +41,12 @@ jobs:
         run: echo "Running the Sonar analysis"
       - name: Deployment on Dev
         run: echo "This will deploy the code on Dev env"
+      - name: Display secrets.SERVER_HOST
+        run: echo "Display secrets server host -- ${{ secrets.SERVER_HOST }}"
+      - name: Display secrets.SERVER_USER
+        run: echo "Display secrets server user -- ${{ secrets.SERVER_USER }}"
+      - name: Display secrets.SERVER_SSH_KEY
+        run: echo "Display secrets server shh key -- ${{ secrets.SERVER_SSH_KEY }}"
 
  Dev_first_machine:
   runs-on: ubuntu-latest
