@@ -75,7 +75,7 @@ jobs:
 
  Deployment_on_production:
   runs-on: ubuntu-latest
-  needs: Stage_job
+  needs: [Dev_job, Stage_job]
 
   steps:
     - name: Deployment on Production     
