@@ -85,7 +85,7 @@ jobs:
 
  notify_success:
   runs-on: ubuntu-latest
-  needs: [Dev_job, Stage_job, Deployment_on_production]
+  needs: Deployment_on_production
   if: ${{ success() }}
 
   steps:
@@ -97,7 +97,7 @@ jobs:
 
  notify_failure:
   runs-on: ubuntu-latest
-  needs: [Dev_job, Stage_job, Deployment_on_production]
+  needs: Deployment_on_production
   if: ${{ failure() }}
 
   steps:
